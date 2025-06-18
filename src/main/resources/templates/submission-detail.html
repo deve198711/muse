@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Submission Detail</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: hotpink;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section img, video {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        .approve-button {
+            padding: 12px 24px;
+            background-color: hotpink;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .back-link {
+            color: #ff99cc;
+            display: inline-block;
+            margin-top: 30px;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<h1>📋 Submission Details</h1>
+
+<div class="section">
+    <strong>Name:</strong> <span th:text="${submission.name}"></span><br>
+    <strong>Email:</strong> <span th:text="${submission.email}"></span><br>
+    <strong>Birthdate:</strong> <span th:text="${submission.birthdate}"></span><br>
+    <strong>Submitted At:</strong> <span th:text="${submission.submittedAt}"></span>
+</div>
+
+<div class="section">
+    <h3>Profile Image</h3>
+    <img th:src="@{${submission.profileImagePath}}" alt="Profile Image"/>
+</div>
+
+<div class="section">
+    <h3>ID Image</h3>
+    <img th:src="@{${submission.idImagePath}}" alt="ID Image"/>
+</div>
+
+<div class="section" th:if="${submission.mediaPaths != null}">
+    <h3>Media Files</h3>
+    <div th:each="mediaPath : ${submission.mediaPaths}">
+        <div th:if="${#strings.endsWith(mediaPath, '.mp4') or #strings.endsWith(mediaPath, '.webm') or #strings.endsWith(mediaPath, '.ogg')}">
+            <video th:src="@{${mediaPath}}" controls></video>
+        </div>
+        <div th:if="${#strings.endsWith(mediaPath, '.jpg') or #strings.endsWith(mediaPath, '.jpeg') or #strings.endsWith(mediaPath, '.png') or #strings.endsWith(mediaPath, '.webp')}">
+            <img th:src="@{${mediaPath}}" />
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <h3>About</h3>
+    <p th:text="${submission.about}">No information provided.</p>
+</div>
+
+<form th:action="@{/admin/approve}" method="post">
+    <input type="hidden" name="email" th:value="${submission.email}" />
+    <button type="submit" class="approve-button">✅ Approve and Send Email</button>
+</form>
+
+<a href="/admin" class="back-link">← Back to Admin</a>
+
+</body>
+</html>

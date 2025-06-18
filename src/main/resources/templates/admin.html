@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: sans-serif;
+            margin: 20px;
+        }
+        h1.header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: hotpink;
+            margin-bottom: 20px;
+        }
+        .card {
+            border: 1px solid #444;
+            padding: 16px;
+            margin: 16px 0;
+            background-color: #111;
+        }
+        .card a {
+            color: hotpink;
+            text-decoration: none;
+        }
+        .clean-button {
+            padding: 10px 20px;
+            background-color: #ff69b4;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .message {
+            color: lightgreen;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .pagination {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .pagination a {
+            color: hotpink;
+            margin: 0 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .pagination a.current {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<h1 class="header">
+    <span>Submitted Profiles</span>
+    <form th:if="${message == null}" th:action="@{/admin/clean-csv}" method="get" style="display:inline;">
+        <button type="submit" class="clean-button">🧹 Clean & Backup CSV</button>
+    </form>
+</h1>
+
+<!-- 🔽 최근 백업 시간 표시 -->
+<p style="color: #ffccff; margin-top: 10px;">
+    🕒 Last backup:
+    <span th:if="${lastBackup}" th:text="${lastBackup}"></span>
+    <span th:unless="${lastBackup}">No backups yet</span>
+</p>
+
+<!-- 🔽 가장 최근 백업 파일 하나만 링크로 보여줌 -->
+<div style="margin-top: 10px;" th:if="${backupFiles != null and !#lists.isEmpty(backupFiles)}">
+    <h3 style="color: #ff66cc;">📁 Backup File</h3>
+    <a th:href="@{'/admin/backup-download'(fileName=${backupFiles[0]})}"
+       th:text="${backupFiles[0]}"
+       style="color: #ff99ff; text-decoration: underline;"></a>
+</div>
+
+<div th:if="${backupFiles == null or #lists.isEmpty(backupFiles)}">
+    <p style="color: gray;">No backup file found.</p>
+</div>
+
+<!-- 🔽 제출 목록 -->
+<div th:if="${submissions != null and #lists.isEmpty(submissions)}">
+    No submissions found.
+</div>
+
+<div th:each="submission : ${submissions}" class="card">
+    <p><strong>Name:</strong> <span th:text="${submission.name}">Name</span></p>
+    <p><strong>Email:</strong> <span th:text="${submission.email}">Email</span></p>
+    <p><strong>Birthdate:</strong> <span th:text="${submission.birthdate}">Birthdate</span></p>
+    <p><strong>Submitted At:</strong> <span th:text="${#temporals.format(submission.createdAt, 'yyyy-MM-dd')}">2025-06-18</span></p>
+    <p>
+        <a th:href="@{'/admin/view/' + ${submission.id}}">🔍 View the detail</a>
+    </p>
+</div>
+
+<!-- 🔽 페이지네이션 -->
+<div class="pagination" th:if="${totalPages > 1}">
+    <a th:each="i : ${#numbers.sequence(1, totalPages)}"
+       th:href="@{'/admin?page=' + ${i}}"
+       th:text="${i}"
+       th:classappend="${i == currentPage} ? 'current'">
+    </a>
+</div>
+
+<div th:if="${message}" class="message">
+    <p th:text="${message}"></p>
+</div>
+
+</body>
+</html>

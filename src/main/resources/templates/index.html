@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MuseBay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            position: relative;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            gap: 40px;
+        }
+
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 64px;
+            color: white;
+            text-shadow: 0 0 12px hotpink;
+            margin: 0;
+        }
+
+        .main-buttons {
+            display: flex;
+            gap: 40px;
+        }
+
+        .main-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: hotpink;
+            border: none;
+            border-radius: 50px;
+            padding: 30px 60px;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 0 20px hotpink;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .main-button.black {
+            background-color: black;
+            border: 2px solid hotpink;
+            color: white;
+        }
+
+        .main-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px hotpink;
+        }
+
+        .main-subtext {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #ddd;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .auth-button {
+            padding: 12px 28px;
+            background-color: black;
+            border: 2px solid hotpink;
+            border-radius: 30px;
+            color: hotpink;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 0 10px hotpink;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .auth-button:hover {
+            background-color: hotpink;
+            color: white;
+            box-shadow: 0 0 15px hotpink;
+        }
+
+        .corner-buttons {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            box-sizing: border-box;
+        }
+
+        .corner-button {
+            padding: 8px 16px;
+            background-color: transparent;
+            border: 2px solid hotpink;
+            border-radius: 10px;
+            color: hotpink;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .corner-button:hover {
+            background-color: hotpink;
+            color: white;
+            box-shadow: 0 0 10px hotpink;
+        }
+    </style>
+</head>
+<body>
+<div class="corner-buttons">
+    <a href="/muse-login" class="corner-button">For Muse</a>
+    <a href="/admin" class="corner-button">For Admin</a>
+</div>
+
+<div class="container">
+    <h1>MuseBay</h1>
+
+    <div class="main-buttons">
+        <a href="/become" class="main-button">
+            Become a Muse
+            <div class="main-subtext">Join as a Model</div>
+        </a>
+        <a href="/creators" class="main-button black">
+            Find Your Muse
+            <div class="main-subtext">Browse Creators</div>
+        </a>
+    </div>
+
+    <div class="auth-buttons">
+        <a href="/signup" class="auth-button">Sign Up</a>
+        <a href="/login" class="auth-button">Log In</a>
+    </div>
+</div>
+</body>
+</html>

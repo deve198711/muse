@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Become a Muse</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 48px;
+            color: hotpink;
+            text-align: center;
+            margin-bottom: 40px;
+            text-shadow: 0 0 12px hotpink;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        input,
+        textarea {
+            margin-top: 5px;
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button.submit-button {
+            background-color: hotpink;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 30px;
+            width: 100%;
+            box-shadow: 0 0 10px hotpink;
+            transition: all 0.2s ease;
+        }
+
+        button.submit-button:hover {
+            background-color: deeppink;
+            box-shadow: 0 0 15px deeppink;
+        }
+
+        .yellow-note {
+            color: #FFD700;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Become a Muse</h1>
+    <form id="becomeForm" th:action="@{/become}" method="post" enctype="multipart/form-data">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" pattern="[A-Za-z\s]+" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="birthdate">Birthdate:</label>
+        <input type="date" id="birthdate" name="birthdate" required>
+        <div class="yellow-note">👇 🧳 Max 20MB per file · <strong>Total up to 60MB</strong> 💾 Multiple files allowed</div>
+
+        <label for="profile">Profile Image: <strong>(Required)</strong></label>
+        <input type="file" id="profile" name="profile" accept=".jpg,.jpeg,.png,.webp" required multiple>
+        <div class="yellow-note">🖼️ Accepts JPG, JPEG, PNG, WebP</div>
+
+        <label for="id">ID Image: <strong>(Required)</strong></label>
+        <input type="file" id="id" name="id" accept=".jpg,.jpeg,.png,.webp" required multiple>
+        <div class="yellow-note">🖼️ Accepts JPG, JPEG, PNG, WebP</div>
+
+        <label for="media">Media Files: <strong>(Optional)</strong></label>
+        <input type="file" id="media" name="media" accept=".jpg,.png,.webp,.mp4,.webm,.ogg" multiple>
+        <div class="yellow-note">📸 Accepts JPG, PNG, WebP, MP4, WebM, OGG</div>
+
+        <label for="about">About: <strong>(Optional)</strong></label>
+        <textarea id="about" name="about" rows="4"></textarea>
+
+        <button type="submit" class="submit-button">Submit</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById("becomeForm").addEventListener("submit", function (e) {
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const birthdate = new Date(document.getElementById("birthdate").value);
+        const profile = document.getElementById("profile").files.length;
+        const idImage = document.getElementById("id").files.length;
+        const today = new Date();
+        const adultDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+
+        // 영문 이름 체크
+        const nameRegex = /^[A-Za-z\s]+$/;
+        if (!nameRegex.test(name)) {
+            alert("Please enter letters only for Name.");
+            e.preventDefault();
+            return;
+        }
+
+        // 이메일 형식 체크
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            alert("Please enter a valid email address.");
+            e.preventDefault();
+            return;
+        }
+
+        // 성인 여부 확인
+        if (birthdate > adultDate) {
+            alert("You must be 18 or older.");
+            e.preventDefault();
+            return;
+        }
+
+        // 필수 이미지 체크
+        if (profile === 0) {
+            alert("Please upload at least one profile image.");
+            e.preventDefault();
+            return;
+        }
+        if (idImage === 0) {
+            alert("Please upload at least one ID image.");
+            e.preventDefault();
+            return;
+        }
+    });
+</script>
+</body>
+</html>
