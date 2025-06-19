@@ -39,10 +39,12 @@ out/
 
 ### File uploads ###
 # Ignore uploaded content, but allow tmp folder
-uploads/*
-!uploads/tmp/
-!uploads/tmp/.gitkeep
+src/main/resources/static/uploads/*
+!src/main/resources/static/uploads/tmp/
+!src/main/resources/static/uploads/tmp/.gitkeep
 
 .idea/
 *.iml
 .DS_Store
+
+.env
